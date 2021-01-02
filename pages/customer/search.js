@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
@@ -24,13 +24,21 @@ export default function searchCustomer() {
   const handleClose = () => setShow(false);
 
   const columns = [
-    { title: "#", data: "id" },
-    { title: "CustomerNo", data: "customerNo" },
-    { title: "FullName", data: "fullName" },
-    { title: "Primary Phone", data: "primaryPhone" },
-    { title: "Email", data: "emailAddress" },
-    { title: "Address", data: "address" },
-    { title: "CreatedBy", data: "createdBy" },
+    {
+      name: "#",
+      selector: "id",
+    },
+    { name: "CustomerNo", selector: "customerNo" },
+    {
+      name: "FullName",
+      selector: "fullName",
+      sortable: true,
+      wrap: true,
+    },
+    { name: "Primary Phone", selector: "primaryPhone", sortable: true },
+    { name: "Email", selector: "emailAddress", sortable: true, wrap: true },
+    { name: "Address", selector: "address", sortable: true, wrap: true },
+    { name: "CreatedBy", selector: "createdBy" },
   ];
   const fetchCustomer = async () => {
     setLoading(true);
@@ -134,7 +142,12 @@ export default function searchCustomer() {
           >
             Export PDF
           </Button>
-          <Table data={data} columns={columns} click={fetchACustomer} />
+          <Table
+            title="Customer Record"
+            columns={columns}
+            data={data}
+            click={(row) => fetchACustomer(row)}
+          />
         </div>
       )}
       <Modal show={show} onHide={handleClose}>

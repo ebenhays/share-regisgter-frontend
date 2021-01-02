@@ -14,12 +14,12 @@ export default function Authorize() {
   const [data, setdata] = useState([]);
   const [loading, setLoading] = useState(false);
   const columns = [
-    { title: "#", data: "id" },
-    { title: "CustomerNo", data: "customerNo" },
-    { title: "Account No", data: "accountNumber" },
-    { title: "FullName", data: "fullName" },
-    { title: "CreatedBy", data: "createdBy" },
-    { title: "CreatedAt", data: "createdAt" },
+    { name: "#", selector: "id" },
+    { name: "CustomerNo", selector: "customerNo" },
+    { name: "Account No", selector: "accountNumber", sortable: true },
+    { name: "FullName", selector: "fullName", sortable: true, wrap: true },
+    { name: "CreatedBy", selector: "createdBy" },
+    { name: "CreatedAt", selector: "createdAt" },
   ];
   const clickToAuthorize = (row) => {
     swal({
@@ -70,7 +70,12 @@ export default function Authorize() {
       {loading ? (
         "Loading"
       ) : (
-        <Table data={data} columns={columns} click={clickToAuthorize} />
+        <Table
+          title="Authorize Share Account"
+          data={data}
+          columns={columns}
+          click={(row) => clickToAuthorize(row)}
+        />
       )}
     </Layout>
   );

@@ -14,15 +14,15 @@ export default function Authorize() {
   const [data, setdata] = useState([]);
   const [loading, setLoading] = useState(false);
   const columns = [
-    { title: "#", data: "id" },
-    { title: "ShareNo", data: "shareNo" },
-    { title: "Qty", data: "shareQty" },
-    { title: "SharePrice", data: "sharePrice" },
+    { name: "#", selector: "id" },
+    { name: "ShareNo", selector: "shareNo" },
+    { name: "Qty", selector: "shareQty" },
+    { name: "SharePrice", selector: "sharePrice" },
     {
-      title: "Total",
+      name: "Total",
       format: (row) => <strong>{row.total ?? "0.00"}</strong>,
     },
-    { title: "DateOpen", data: "createdAt" },
+    { name: "DateOpen", selector: "createdAt" },
   ];
   const clickToAuthorize = (row) => {
     swal({
@@ -72,7 +72,12 @@ export default function Authorize() {
       {loading ? (
         "Loading"
       ) : (
-        <Table data={data} columns={columns} click={clickToAuthorize} />
+        <Table
+          title="Authorize Share Record"
+          data={data}
+          columns={columns}
+          click={(row) => clickToAuthorize(row)}
+        />
       )}
     </Layout>
   );

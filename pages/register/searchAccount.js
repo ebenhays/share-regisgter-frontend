@@ -18,26 +18,46 @@ export default function searchShareAccount() {
   const handleClose = () => setShow(false);
 
   const columns = [
-    { title: "#", data: "id" },
-    { title: "CustomerNo", data: "customerNo" },
-    { title: "AccountNo", data: "accountNumber" },
-    { title: "FullName", data: "fullName" },
-    { title: "PhoneNo", data: "primaryPhone" },
+    { name: "#", data: "id" },
+    { name: "CustomerNo", selector: "customerNo" },
+    { name: "AccountNo", selector: "accountNumber" },
+    { name: "FullName", selector: "fullName", sortable: true, wrap: true },
+    { name: "PhoneNo", selector: "primaryPhone" },
     {
-      title: "Total Shares",
-      format: (row) => <strong>{row.totalBalance ?? "0.00"}</strong>,
+      name: "Total Shares",
+      selector: "totalBalance",
+      cell: (row) => (
+        <div data-tag="allowRowEvents">
+          <strong>{row.totalBalance ?? "0.00"}</strong>
+        </div>
+      ),
     },
-    { title: "DateOpen", data: "createdAt" },
+    {
+      name: "DateOpen",
+      selector: "createdAt",
+      sortable: true,
+      wrap: true,
+      cell: (row) => (
+        <div data-tag="allowRowEvents">
+          {moment(row.createdAt).format("YYYY-MM-DD")}
+        </div>
+      ),
+    },
   ];
   const columnsShares = [
-    { title: "ShareNo", data: "shareNo" },
-    { title: "Amount", data: "shareQty" },
-    { title: "Price", data: "sharePrice" },
+    { name: "ShareNo", selector: "shareNo" },
+    { name: "Amount", selector: "shareQty" },
+    { name: "Price", selector: "sharePrice" },
     {
-      title: "Total",
-      format: (row) => <strong>{row.total ?? "0.00"}</strong>,
+      name: "Total",
+      selector: "total",
+      cell: (row) => (
+        <div data-tag="allowRowEvents">
+          <strong>{row.shareQty / row.sharePrice ?? "0.00"}</strong>
+        </div>
+      ),
     },
-    { title: "DateOpen", data: "createdAt" },
+    { name: "DateOpen", selector: "createdAt" },
   ];
   const fetchAccountInfo = async () => {
     setLoading(true);
@@ -67,7 +87,12 @@ export default function searchShareAccount() {
       {loading ? (
         <Spinner animation="grow" />
       ) : (
-        <Table data={data} columns={columns} click={fetchSharesWithAccount} />
+        <Table
+          title="Share Account Records"
+          data={data}
+          columns={columns}
+          click={(row) => fetchSharesWithAccount(row)}
+        />
       )}
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
@@ -75,7 +100,11 @@ export default function searchShareAccount() {
         </Modal.Header>
         <Modal.Body>
           <form>
-            <Table data={record} columns={columnsShares} />
+            <Table
+              title="Individual Shares Purchase"
+              data={record}
+              columns={columnsShares}
+            />
           </form>
         </Modal.Body>
         <Modal.Footer>

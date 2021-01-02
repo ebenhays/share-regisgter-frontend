@@ -1,4 +1,5 @@
-import DataTable from "@bit/adeoy.utils.data-table";
+import React from "react";
+import DataTable from "react-data-table-component";
 import swal from "sweetalert";
 export const Input = ({ ...props }) => {
   return <input {...props} />;
@@ -13,20 +14,26 @@ export const SelectOptions = (props) => {
 
 export const Table = (props) => {
   return (
-    <div class="card mb-4">
-      <div class="card-header">
-        <i class="fas fa-table mr-1"></i>
+    <div className="card mb-4">
+      <div className="card-header">
+        <i className="fas fa-table mr-1"></i>
         {props.tableHeading}
       </div>
-      <div class="card-body">
-        <div class="table-responsive">
+      <div className="card-body">
+        <div className="table-responsive">
           <DataTable
-            data={props.data}
+            center={true}
+            title={props.title}
             columns={props.columns}
+            data={props.data}
             striped={true}
-            hover={true}
-            responsive={true}
-            onClickRow={props.click}
+            highlightOnHover={true}
+            pointerOnHover={true}
+            responsive
+            onRowClicked={props.click}
+            pagination={true}
+            paginationRowsPerPageOptions={[10, 20, 50, 100]}
+            {...props}
           />
         </div>
       </div>

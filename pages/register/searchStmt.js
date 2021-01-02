@@ -24,15 +24,26 @@ export default function SearchStmt() {
   const [record, setRecord] = useState([]);
 
   const columns = [
-    { title: "Date", data: "postingDate" },
-    { title: "ShareNo", data: "shareNo" },
-    { title: "Narration", data: "narration" },
-    { title: "Credit", data: "credit" },
-    { title: "Debit", data: "debit" },
-    { title: "SharePrice", data: "sharePrice" },
-    { title: "ShareValue", data: "shareValue" },
-    { title: "TotalValue", data: "totalSharesValue" },
-    { title: "Balance", data: "total" },
+    { name: "Date", selector: "postingDate", sortable: true, wrap: true },
+    { name: "ShareNo", selector: "shareNo", wrap: true },
+    {
+      name: "Narration",
+      selector: "narration",
+      sortable: true,
+      wrap: true,
+    },
+    { name: "Credit", selector: "credit", maxWidth: "100px" },
+    { name: "Debit", selector: "debit", maxWidth: "100px" },
+    { name: "SharePrice", selector: "sharePrice", maxWidth: "100px" },
+    { name: "ShareValue", selector: "shareValue", maxWidth: "100px" },
+    {
+      name: "TotalValue",
+      selector: "totalSharesValue",
+      sortable: true,
+      wrap: true,
+      maxWidth: "100px",
+    },
+    { name: "Balance", selector: "total", maxWidth: "100px" },
   ];
 
   const fetchStatement = async () => {
@@ -201,7 +212,6 @@ export default function SearchStmt() {
             </Button>
           </div>
           <table className="table table-bordered">
-            <caption>Statement of Account</caption>
             <thead>
               <tr>
                 <th scope="col">CustomerNo</th>
@@ -219,7 +229,7 @@ export default function SearchStmt() {
               </tr>
             </tbody>
           </table>
-          <Table data={data} columns={columns} />
+          <Table title="Statement of Account" data={data} columns={columns} />
         </div>
       ) : null}
     </Layout>
