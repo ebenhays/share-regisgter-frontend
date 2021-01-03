@@ -28,6 +28,7 @@ export default function CreateCustomer() {
     };
     PostCustomer(data)
       .then((response) => {
+        console.log(response);
         AlertSuccess(response.data.message);
         setCustomer({
           fullName: "",
@@ -38,6 +39,7 @@ export default function CreateCustomer() {
         });
       })
       .catch((error) => {
+        console.log(error);
         AlertFailure();
       });
   };
